@@ -1,11 +1,40 @@
-version: "2"
+version: "3.3"
+
+networks:
+  net:
+    driver: overlay
+    attachable: true
+
+configs:
+  collectd_config:
+    file: ./conf/etc/collectd/collectd.conf
 
 services:
-  statsd:
-   image: graphiteapp/graphite-statsd
+
+  collectd-graphite:
+   image: graphiteapp/graphite-statsd:1.1.4-9
+   environment:
+     - COLLECTD=1
    ports:
     - "80:80"
     - "2003-2004:2003-2004"
     - "2023-2024:2023-2024"
     - "8125:8125/udp"
     - "8126:8126"
+   networks:
+     - net
+   configs:
+     - source: collectd_config
+       target: etc/collectd/collectd.conf 
+   deploy:
+     mode: replicated
+     replicas: 1
+#     placement:
+#       constraints:
+#         - node.labels.project == stock
+#         - node.role == manager
+     restart_policy:
+       condition: any
+       delay: 5s
+       max_attempts: 10
+       window: 120s

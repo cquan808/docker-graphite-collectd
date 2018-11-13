@@ -105,7 +105,7 @@ RUN export DEBIAN_FRONTEND=noninteractive \
  && apt-get update --fix-missing \
  && apt-get -y upgrade \
  && apt-get install --yes --no-install-recommends \
-      collectd \
+      collectd collectd-utils \
       expect \
       git \
       libcairo2 \
