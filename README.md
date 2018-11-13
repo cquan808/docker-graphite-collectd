@@ -1,5 +1,9 @@
 This repo is based on [@https://github.com/graphite-project/docker-graphite-statsd](https://github.com/graphite-project/docker-graphite-statsd). Modified `collectd.conf` and `docker-compose.yml` to deploy as a stack on docker swarm.
 
+Just change into directory and run the following: (assumes you have a docker swarm already setup)
+
+`docker stack deploy -c docker-compose.yml stack`
+
 # Docker Image for Graphite & Statsd
 
 ## Get Graphite & Statsd running instantly
