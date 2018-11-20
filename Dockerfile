@@ -1,5 +1,22 @@
 FROM phusion/baseimage:0.11 as build
-LABEL maintainer="Denys Zhdanov <denis.zhdanov@gmail.com>"
+LABEL maintainer="Chris Quan"
+
+########
+#To solve add-apt-repository : command not found
+#RUN apt-get install software-properties-common python-software-properties
+# Install Java.
+RUN export DEBIAN_FRONTEND=noninteractive \
+ && echo oracle-java8-installer shared/accepted-oracle-license-v1-1 select true | debconf-set-selections \
+ && add-apt-repository -y ppa:webupd8team/java \
+ && apt-get update \
+ && apt-get install -y oracle-java8-installer \
+ && rm -rf /var/lib/apt/lists/* \
+ && rm -rf /var/cache/oracle-jdk8-installer \
+ && ln -s /usr/lib/jvm/java-8-openjdk-amd64/jre/lib/amd64/server/libjvm.so /lib/x86_64-linux-gnu/libjvm.so
+#RUN ln -s /usr/lib/jvm/java-8-openjdk-amd64/jre/lib/amd64/server/libjvm.so /usr/lib/libjvm.so
+# Define commonly used JAVA_HOME variable
+#ENV JAVA_HOME /usr/lib/jvm/java-8-oracle
+########
 
 RUN export DEBIAN_FRONTEND=noninteractive \
  && apt-get -y update \
@@ -88,13 +105,27 @@ RUN mkdir -p /var/log/graphite/ \
 COPY conf/opt/statsd/config_*.js /opt/statsd/
 
 FROM phusion/baseimage:0.11 as production
-LABEL maintainer="Denys Zhdanov <denis.zhdanov@gmail.com>"
+LABEL maintainer="Chris Quan"
 
 ENV STATSD_INTERFACE udp
 
 # choose a timezone at build-time
 # use `--build-arg CONTAINER_TIMEZONE=Europe/Brussels` in `docker build`
 ARG CONTAINER_TIMEZONE
+
+########
+#To solve add-apt-repository : command not found
+#RUN apt-get install software-properties-common python-software-properties
+# Install Java.
+RUN export DEBIAN_FRONTEND=noninteractive \
+ && echo oracle-java8-installer shared/accepted-oracle-license-v1-1 select true | debconf-set-selections \
+ && add-apt-repository -y ppa:webupd8team/java \
+ && apt-get update \
+ && apt-get install -y oracle-java8-installer \
+ && rm -rf /var/lib/apt/lists/* \
+ && rm -rf /var/cache/oracle-jdk8-installer 
+RUN ln -s /usr/lib/jvm/java-8-openjdk-amd64/jre/lib/amd64/server/libjvm.so /usr/lib/libjvm.so
+########
 
 RUN if [ ! -z "${CONTAINER_TIMEZONE}" ]; \
     then ln -sf /usr/share/zoneinfo/$CONTAINER_TIMEZONE /etc/localtime && \
@@ -116,6 +147,7 @@ RUN export DEBIAN_FRONTEND=noninteractive \
       python3-pip \
       redis \
       sqlite3 \
+      libyajl-dev \
  && apt-get clean \
  && apt-get autoremove --yes \
  && rm -rf \
@@ -132,6 +164,8 @@ COPY conf /etc/graphite-statsd/conf/
 COPY --from=build /opt /opt
 
 RUN /usr/local/bin/django_admin_init.exp
+
+RUN service collectd restart
 
 # defaults
 EXPOSE 80 2003-2004 2023-2024 8080 8125 8125/udp 8126
