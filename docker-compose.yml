@@ -8,33 +8,51 @@ networks:
 configs:
   collectd_config:
     file: ./conf/etc/collectd/collectd.conf
+  json-file:
+    file: ./json-server/test.json
 
 services:
 
   collectd-graphite:
-   image: docker-graphite-collectd:latest
-   environment:
-     - COLLECTD=1
-   ports:
-    - "80:80"
-    - "2003-2004:2003-2004"
-    - "2023-2024:2023-2024"
-    - "8125:8125/udp"
-    - "8126:8126"
-   networks:
-     - net
-   configs:
-     - source: collectd_config
-       target: etc/collectd/collectd.conf 
-   deploy:
-     mode: replicated
-     replicas: 1
+    image: docker-graphite-collectd:latest
+    environment:
+      - COLLECTD=1
+    ports:
+      - "80:80"
+      - "2003-2004:2003-2004"
+      - "2023-2024:2023-2024"
+      - "8125:8125/udp"
+      - "8126:8126"
+    networks:
+      - net
+    configs:
+      - source: collectd_config
+        target: etc/collectd/collectd.conf 
+    deploy:
+      mode: replicated
+      replicas: 1
 #     placement:
 #       constraints:
 #         - node.labels.project == epicProject
 #         - node.role == manager
-     restart_policy:
-       condition: any
-       delay: 5s
-       max_attempts: 10
-       window: 120s
+    restart_policy:
+      condition: any
+      delay: 5s
+      max_attempts: 10
+      window: 120s
+
+  json-server:
+    image: cquan808/json-server:latest
+    command: -w test.json
+    ports:
+      - "5000:3000"
+    networks:
+      - net
+    configs:
+      - source: json-file
+        target: /app/test.json    
+    restart_policy:
+      condition: any
+      delay: 5s
+      max_attempts: 10
+      window: 120s
