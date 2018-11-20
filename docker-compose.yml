@@ -14,7 +14,7 @@ configs:
 services:
 
   collectd-graphite:
-    image: docker-graphite-collectd:latest
+    image: gcr.io/<your-gcloud-project>/docker-graphite-collectd:latest
     environment:
       - COLLECTD=1
     ports:
