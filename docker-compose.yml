@@ -51,8 +51,4 @@ services:
     configs:
       - source: json-file
         target: /app/test.json    
-    restart_policy:
-      condition: any
-      delay: 5s
-      max_attempts: 10
-      window: 120s
+    restart: always
