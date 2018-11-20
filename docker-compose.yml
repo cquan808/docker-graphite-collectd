@@ -35,12 +35,11 @@ services:
 #       constraints:
 #         - node.labels.project == epicProject
 #         - node.role == manager
-    restart: always
-#    restart_policy:
-#      condition: any
-#      delay: 5s
-#      max_attempts: 10
-#      window: 120s
+    restart_policy:
+      condition: any
+      delay: 5s
+      max_attempts: 10
+      window: 120s
 
   json-server:
     image: cquan808/json-server:latest
