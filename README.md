@@ -3,7 +3,7 @@ This repo is based on [@https://github.com/graphite-project/docker-graphite-stat
 ## Updates to original repo
 
 - Modified `collectd.conf` and `docker-compose.yml` to deploy as a stack on docker swarm. 
-- Dependencies add in Dockerfile to allow collectd's plugins to work.
+- Dependencies add in Dockerfile to allow collectd's plugins to work. (collectd plugins used: df, curl_json)
 
 ## Prerequisites: 
 
