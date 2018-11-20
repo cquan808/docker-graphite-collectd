@@ -1,4 +1,4 @@
-This repo is based on [@https://github.com/graphite-project/docker-graphite-statsd](https://github.com/graphite-project/docker-graphite-statsd). 
+This repo is based on [@https://github.com/graphite-project/docker-graphite-statsd](https://github.com/graphite-project/docker-graphite-statsd). (Release 1.1.4-10)
 
 ## Updates to original repo
 
