@@ -10,6 +10,7 @@ This repo is based on [@https://github.com/graphite-project/docker-graphite-stat
 
 - Ubuntu 18.04 LTS on GCE
 - Docker swarm, refer to https://github.com/cquan808/docker-swarm-gcepd
+- Grafana
 
 ## Quick start:
 
