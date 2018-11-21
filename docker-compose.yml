@@ -8,13 +8,11 @@ networks:
 configs:
   collectd_config:
     file: ./conf/etc/collectd/collectd.conf
-  json-file:
-    file: ./json-server/test.json
 
 services:
 
   collectd-graphite:
-    image: gcr.io/<your-gcloud-project>/docker-graphite-collectd:latest
+    image: cquan808/docker-graphite-collectd:latest
     environment:
       - COLLECTD=1
     ports:
@@ -40,15 +38,3 @@ services:
       delay: 5s
       max_attempts: 10
       window: 120s
-
-  json-server:
-    image: cquan808/json-server:latest
-    command: -w test.json
-    ports:
-      - "5000:3000"
-    networks:
-      - net
-    configs:
-      - source: json-file
-        target: /app/test.json    
-    restart: always
