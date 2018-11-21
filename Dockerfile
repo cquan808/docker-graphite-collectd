@@ -163,7 +163,7 @@ COPY conf /etc/graphite-statsd/conf/
 # copy /opt from build image
 COPY --from=build /opt /opt
 
-# RUN /usr/local/bin/django_admin_init.exp
+RUN /usr/local/bin/django_admin_init.exp
 
 RUN service collectd restart
 
