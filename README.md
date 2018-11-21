@@ -37,3 +37,7 @@ Check stack and services are up and running:
 `docker service ls`
 
 `docker service logs stack_collectd-graphite`
+
+JSON website used for curl_json plugin: https://jsonplaceholder.typicode.com/todos/1
+
+Can use grafana to add GCE server as datasource and use metric on dashboard now!
