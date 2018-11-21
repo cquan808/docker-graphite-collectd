@@ -41,3 +41,5 @@ Check stack and services are up and running:
 JSON website used for curl_json plugin: https://jsonplaceholder.typicode.com/todos/1
 
 Can use grafana to add GCE server as datasource and use metric on dashboard now!
+
+Edit new graph and add metric: `collectd.graphite.curl_json-json_data.gauge-id` to display `1`
